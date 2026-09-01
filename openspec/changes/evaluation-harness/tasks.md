@@ -5,12 +5,12 @@
 
 ## 2. Scenario Dataset Content
 
-- [ ] 2.1 Author 10 factual recall scenarios (single fact stated, then asked back, per PLANNING.md's Example Evaluation Cases) into `eval/scenarios/scenarios.jsonl`
-- [ ] 2.2 Author 10 long-range recall scenarios (fact stated early, multiple unrelated turns in between, then asked late) into the same file
-- [ ] 2.3 Author 10 contradiction/update scenarios (a fact stated, then contradicted/updated, then asked for both current and historical truth) into the same file
-- [ ] 2.4 Author 10 temporal reasoning scenarios (distinct from contradiction/update - e.g. asking when something changed, or what was true at a point in time) into the same file
-- [ ] 2.5 Author 10 persona consistency scenarios (questions likely to tempt drift into generic assistant language or contradict a defined persona trait, per PLANNING.md's Persona Drift Detection examples) into the same file
-- [ ] 2.6 Verify with `load_scenarios`: the file parses without error and contains at least 10 scenarios in each of the 5 categories (50 total)
+- [x] 2.1 Author 10 factual recall scenarios (single fact stated, then asked back, per PLANNING.md's Example Evaluation Cases) into `eval/scenarios/scenarios.jsonl`
+- [x] 2.2 Author 10 long-range recall scenarios (fact stated early, multiple unrelated turns in between, then asked late) into the same file
+- [x] 2.3 Author 10 contradiction/update scenarios (a fact stated, then contradicted/updated, then asked for current truth) into the same file
+- [x] 2.4 Author 10 temporal reasoning scenarios (mirroring the contradiction/update pairs but asking for the historical fact instead of current truth) into the same file
+- [x] 2.5 Author 10 persona consistency scenarios (questions likely to tempt drift into generic assistant language or contradict a defined persona trait, per PLANNING.md's Persona Drift Detection examples) into the same file
+- [x] 2.6 Verify with `load_scenarios`: the file parses without error and contains at least 10 scenarios in each of the 5 categories (50 total)
 
 ## 3. Eval Runner: Scenario Execution
 
