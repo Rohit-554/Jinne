@@ -36,8 +36,8 @@
 
 ## 6. Persona
 
-- [ ] 6.1 Define a static persona configuration (name, traits, communication style, stable preferences) per PLANNING.md's Persona System section, stored in `persona/` separate from memory, and verify it loads without error at startup
-- [ ] 6.2 Implement a function that renders the persona into a context-ready text block and verify a unit test checks the rendered block contains name, traits, and communication style
+- [x] 6.1 Define a static persona configuration (name, traits, communication style, stable preferences) per PLANNING.md's Persona System section, stored in `persona/` separate from memory, and verify it loads without error at startup
+- [x] 6.2 Implement a function that renders the persona into a context-ready text block and verify a unit test checks the rendered block contains name, traits, and communication style
 
 ## 7. Conversation Loop & Context Builder (`chat/conversation-loop`)
 
