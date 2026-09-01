@@ -28,11 +28,11 @@
 
 ## 5. Memory Retrieval (`memory/memory-retrieval`)
 
-- [ ] 5.1 Implement embedding generation for stored memories (compute and store `embedding` on save) and verify a unit test confirms a saved memory has a non-null embedding
-- [ ] 5.2 Implement `MemoryRetriever.retrieve(message, top_k)` using cosine similarity over ACTIVE memory embeddings and verify a unit test returns memories ordered by descending similarity
-- [ ] 5.3 Verify the bounded result set: a store seeded with more than `top_k` memories returns exactly `top_k` results
-- [ ] 5.4 Verify status filtering: a store containing a non-ACTIVE memory confirms that memory is never returned regardless of similarity (seed one manually since this change does not yet produce non-ACTIVE memories)
-- [ ] 5.5 Verify semantic (non-keyword) retrieval: seed a memory "User has Stripe interview tomorrow" and query "I'm really nervous about tomorrow", and confirm it is retrieved
+- [x] 5.1 Implement embedding generation for stored memories (compute and store `embedding` on save) and verify a unit test confirms a saved memory has a non-null embedding
+- [x] 5.2 Implement `MemoryRetriever.retrieve(message, top_k)` using cosine similarity over ACTIVE memory embeddings and verify a unit test returns memories ordered by descending similarity
+- [x] 5.3 Verify the bounded result set: a store seeded with more than `top_k` memories returns exactly `top_k` results
+- [x] 5.4 Verify status filtering: a store containing a non-ACTIVE memory confirms that memory is never returned regardless of similarity (seed one manually since this change does not yet produce non-ACTIVE memories)
+- [x] 5.5 Verify semantic (non-keyword) retrieval: seed a memory "User has Stripe interview tomorrow" and query "I'm really nervous about tomorrow", and confirm it is retrieved (verified with real fastembed embeddings, matching PLANNING.md's Retrieval Example)
 
 ## 6. Persona
 

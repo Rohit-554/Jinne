@@ -1,8 +1,9 @@
-from src.llm.provider import LLMProvider
+from src.llm.provider import EmbeddingProvider, LLMProvider
 from src.memory.extractor.json_utils import parse_json_object
 from src.memory.extractor.prompts import build_messages
 from src.memory.extractor.schemas import ExtractionDecision, ExtractionResult, MemoryCandidate
 from src.memory.models.memory import Memory
+from src.memory.retriever.embedding import embed_memory
 from src.memory.store.store import MemoryStore
 
 
@@ -37,6 +38,7 @@ def extract_and_store(
     store: MemoryStore,
     message: str,
     source_message_id: str,
+    embedder: EmbeddingProvider | None = None,
 ) -> list[Memory]:
     candidates = extractor.extract(message)
     saved: list[Memory] = []
@@ -44,5 +46,7 @@ def extract_and_store(
         if candidate.decision != ExtractionDecision.SAVE:
             continue
         memory = candidate_to_memory(candidate, source_message_id)
+        if embedder is not None:
+            memory = embed_memory(embedder, memory)
         saved.append(store.save(memory))
     return saved
