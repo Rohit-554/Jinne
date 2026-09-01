@@ -28,6 +28,8 @@
 
 ## 6. End-to-End Verification
 
-- [ ] 6.1 Verify live via the real CLI: tell the companion "I work at Google", then "I left Google and joined Microsoft", then ask "Where do I work?" and confirm the answer is Microsoft
-- [ ] 6.2 In the same live session, ask "Where did I work before Microsoft?" and confirm the answer references Google as past, not current, employment
-- [ ] 6.3 Verify independent facts still coexist live: tell the companion "I like Kotlin" then "I also like Python", then ask what languages it knows you like, and confirm both are referenced rather than one replacing the other
+- [x] 6.1 Verify live via the real CLI: tell the companion "I work at Google", then "I left Google and joined Microsoft", then ask "Where do I work?" and confirm the answer is Microsoft
+- [x] 6.2 In the same live session, ask "Where did I work before Microsoft?" and confirm the answer references Google as past, not current, employment
+- [x] 6.3 Verify independent facts still coexist live: tell the companion "I like Kotlin" then "I also like Python", then ask what languages it knows you like, and confirm both are referenced rather than one replacing the other
+
+All 6 task groups verified. Live run confirmed: "Where do I work?" -> Microsoft (current); "Where did I work before Microsoft?" -> Google (correctly framed as past); both Kotlin and Python retained as coexisting preferences.
