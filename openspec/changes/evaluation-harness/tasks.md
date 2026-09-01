@@ -14,8 +14,8 @@
 
 ## 3. Eval Runner: Scenario Execution
 
-- [ ] 3.1 Implement `run_scenario(scenario, llm, embedder) -> tuple[response, engine]`: builds a fresh `MemoryStore(":memory:")` and `ConversationEngine`, sends each of the scenario's `turns` through `handle_message` in order, then sends `final_question` and returns its response, and verify a unit test (mocked LLM) confirms turns are sent in order before the final question
-- [ ] 3.2 Verify store isolation: running two scenarios in sequence with the same LLM/embedder instances confirms the second scenario's store contains no memories from the first (unit test)
+- [x] 3.1 Implement `run_scenario(scenario, llm, embedder) -> tuple[response, store]`: builds a fresh `MemoryStore(":memory:")` and `ConversationEngine`, sends each of the scenario's `turns` through `handle_message` in order, then sends `final_question` and returns its response, and verify a unit test (mocked LLM) confirms turns are sent in order before the final question
+- [x] 3.2 Verify store isolation: running two scenarios in sequence with the same LLM/embedder instances confirms the second scenario's store contains no memories from the first (unit test)
 
 ## 4. Eval Runner: Verdicts
 
