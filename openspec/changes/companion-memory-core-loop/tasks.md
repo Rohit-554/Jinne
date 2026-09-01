@@ -6,11 +6,11 @@
 
 ## 2. Memory Store (`memory/memory-store`)
 
-- [ ] 2.1 Define the `Memory` Pydantic model with fields id, type, subject, relation, value, status, importance, confidence, created_at, updated_at, valid_from, valid_until, supersedes_memory_id, source_message_id, embedding, and verify a unit test constructs a valid instance and rejects a missing required field
-- [ ] 2.2 Define the SQLite schema/table for memories (via SQLAlchemy models or raw DDL) and verify a migration/init script creates the table with all model fields
-- [ ] 2.3 Implement `MemoryStore.save(memory)` and `MemoryStore.get(id)` and verify a unit test saves a memory and reads back an identical record
-- [ ] 2.4 Implement `MemoryStore.list(status=...)` filtering by lifecycle status and verify a unit test confirms only ACTIVE records are returned when filtering by ACTIVE
-- [ ] 2.5 Verify persistence across restarts: a test writes to the SQLite file, closes the connection, reopens a fresh `MemoryStore` instance against the same file, and confirms the record is still present
+- [x] 2.1 Define the `Memory` Pydantic model with fields id, type, subject, relation, value, status, importance, confidence, created_at, updated_at, valid_from, valid_until, supersedes_memory_id, source_message_id, embedding, and verify a unit test constructs a valid instance and rejects a missing required field
+- [x] 2.2 Define the SQLite schema/table for memories (via SQLAlchemy models or raw DDL) and verify a migration/init script creates the table with all model fields
+- [x] 2.3 Implement `MemoryStore.save(memory)` and `MemoryStore.get(id)` and verify a unit test saves a memory and reads back an identical record
+- [x] 2.4 Implement `MemoryStore.list(status=...)` filtering by lifecycle status and verify a unit test confirms only ACTIVE records are returned when filtering by ACTIVE
+- [x] 2.5 Verify persistence across restarts: a test writes to the SQLite file, closes the connection, reopens a fresh `MemoryStore` instance against the same file, and confirms the record is still present
 
 ## 3. LLM & Embedding Provider Interfaces
 
