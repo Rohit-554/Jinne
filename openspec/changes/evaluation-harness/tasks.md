@@ -1,7 +1,7 @@
 ## 1. Scenario Schema and Loader
 
-- [ ] 1.1 Define `ScenarioCategory` (FACTUAL_RECALL / LONG_RANGE_RECALL / CONTRADICTION_UPDATE / TEMPORAL_REASONING / PERSONA_CONSISTENCY) and a `Scenario` Pydantic model (id, category, turns: list[str], final_question, expected_substring: str | None, persona_expectation: str | None) with validation that deterministic categories require `expected_substring` and PERSONA_CONSISTENCY requires `persona_expectation`, and verify a unit test rejects a factual-category scenario missing `expected_substring`
-- [ ] 1.2 Implement `load_scenarios(path) -> list[Scenario]` reading `eval/scenarios/scenarios.jsonl`, and verify a unit test loads a small fixture JSONL file into the expected `Scenario` objects
+- [x] 1.1 Define `ScenarioCategory` (FACTUAL_RECALL / LONG_RANGE_RECALL / CONTRADICTION_UPDATE / TEMPORAL_REASONING / PERSONA_CONSISTENCY) and a `Scenario` Pydantic model (id, category, turns: list[str], final_question, expected_substring: str | None, persona_expectation: str | None) with validation that deterministic categories require `expected_substring` and PERSONA_CONSISTENCY requires `persona_expectation`, and verify a unit test rejects a factual-category scenario missing `expected_substring`
+- [x] 1.2 Implement `load_scenarios(path) -> list[Scenario]` reading `eval/scenarios/scenarios.jsonl`, and verify a unit test loads a small fixture JSONL file into the expected `Scenario` objects
 
 ## 2. Scenario Dataset Content
 
