@@ -12,12 +12,18 @@ class MemoryRetriever:
         self._store = store
 
     def retrieve(self, message: str, top_k: int = DEFAULT_TOP_K) -> list[Memory]:
+        return self._retrieve_by_status(message, MemoryStatus.ACTIVE, top_k)
+
+    def retrieve_historical(self, message: str, top_k: int = DEFAULT_TOP_K) -> list[Memory]:
+        return self._retrieve_by_status(message, MemoryStatus.SUPERSEDED, top_k)
+
+    def _retrieve_by_status(self, message: str, status: MemoryStatus, top_k: int) -> list[Memory]:
         query_vector = self._embedder.embed(message)
-        active_memories = self._store.list(status=MemoryStatus.ACTIVE)
+        candidates = self._store.list(status=status)
 
         scored = [
             (memory, cosine_similarity(query_vector, memory.embedding))
-            for memory in active_memories
+            for memory in candidates
             if memory.embedding is not None
         ]
         scored.sort(key=lambda pair: pair[1], reverse=True)

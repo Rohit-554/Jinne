@@ -18,8 +18,8 @@
 
 ## 4. Historical Memory Retrieval
 
-- [ ] 4.1 Implement `MemoryRetriever.retrieve_historical(message, top_k)` mirroring `retrieve()` but filtering `store.list(status=SUPERSEDED)`, and verify a unit test confirms only SUPERSEDED memories are ever returned, ranked by descending similarity
-- [ ] 4.2 Verify the bounded result set and empty-result behavior (no SUPERSEDED memories exist) with unit tests
+- [x] 4.1 Implement `MemoryRetriever.retrieve_historical(message, top_k)` mirroring `retrieve()` but filtering `store.list(status=SUPERSEDED)`, and verify a unit test confirms only SUPERSEDED memories are ever returned, ranked by descending similarity
+- [x] 4.2 Verify the bounded result set and empty-result behavior (no SUPERSEDED memories exist) with unit tests
 
 ## 5. Historical Context in the Conversation Loop
 

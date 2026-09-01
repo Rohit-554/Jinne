@@ -95,3 +95,51 @@ def test_retrieve_finds_semantically_related_memory_without_keyword_overlap(tmp_
         assert results[0].id == target.id
     finally:
         store.close()
+
+
+def test_retrieve_historical_returns_only_superseded_memories_ordered_by_similarity(tmp_path, embedder):
+    store = MemoryStore(tmp_path / "companion.db")
+    try:
+        _seed(store, embedder, relation="works_at", value="Microsoft", status=MemoryStatus.ACTIVE)
+        _seed(store, embedder, relation="works_at", value="Google", status=MemoryStatus.SUPERSEDED)
+        _seed(store, embedder, relation="pet_name", value="Bruno", status=MemoryStatus.SUPERSEDED)
+
+        retriever = MemoryRetriever(embedder, store)
+        results = retriever.retrieve_historical("Where did I work before Microsoft?", top_k=5)
+
+        assert all(m.status == MemoryStatus.SUPERSEDED for m in results)
+        assert "Google" in [m.value for m in results]
+        assert "Microsoft" not in [m.value for m in results]
+
+        query_vector = embedder.embed("Where did I work before Microsoft?")
+        scores = [cosine_similarity(query_vector, m.embedding) for m in results]
+        assert scores == sorted(scores, reverse=True)
+    finally:
+        store.close()
+
+
+def test_retrieve_historical_is_bounded_by_top_k(tmp_path, embedder):
+    store = MemoryStore(tmp_path / "companion.db")
+    try:
+        for i in range(6):
+            _seed(store, embedder, relation=f"fact_{i}", value=f"Fact number {i}", status=MemoryStatus.SUPERSEDED)
+
+        retriever = MemoryRetriever(embedder, store)
+        results = retriever.retrieve_historical("Tell me a fact", top_k=2)
+
+        assert len(results) == 2
+    finally:
+        store.close()
+
+
+def test_retrieve_historical_returns_empty_when_no_superseded_memories(tmp_path, embedder):
+    store = MemoryStore(tmp_path / "companion.db")
+    try:
+        _seed(store, embedder, relation="works_at", value="Microsoft", status=MemoryStatus.ACTIVE)
+
+        retriever = MemoryRetriever(embedder, store)
+        results = retriever.retrieve_historical("Where did I work before?", top_k=5)
+
+        assert results == []
+    finally:
+        store.close()
