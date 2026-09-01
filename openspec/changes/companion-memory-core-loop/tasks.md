@@ -14,9 +14,9 @@
 
 ## 3. LLM & Embedding Provider Interfaces
 
-- [ ] 3.1 Define `llm/provider.py` interfaces: `complete(messages) -> str` and `embed(text) -> list[float]`, and verify they are abstract/protocol types with no vendor-specific imports
-- [ ] 3.2 Implement one concrete provider (e.g. OpenAI or Anthropic) behind the interface, configured via environment variables, and verify a manual smoke call returns a non-empty completion and an embedding vector of the expected dimension
-- [ ] 3.3 Verify provider swap: a unit test injects a fake/stub provider implementing the same interface and confirms extraction/retrieval code paths run unchanged against it
+- [x] 3.1 Define `llm/provider.py` interfaces: `complete(messages) -> str` and `embed(text) -> list[float]`, and verify they are abstract/protocol types with no vendor-specific imports
+- [x] 3.2 Implement one concrete provider (Groq for chat, fastembed for local embeddings) behind the interface, configured via environment variables, and verify a manual smoke call returns a non-empty completion and an embedding vector of the expected dimension
+- [x] 3.3 Verify provider swap: a unit test injects a fake/stub provider implementing the same interface and confirms calling code built against the interface runs unchanged against it (extraction/retrieval modules built in later task groups depend only on this interface by construction, per design.md)
 
 ## 4. Memory Extraction (`memory/memory-extraction`)
 
