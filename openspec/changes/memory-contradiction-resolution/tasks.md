@@ -23,8 +23,8 @@
 
 ## 5. Historical Context in the Conversation Loop
 
-- [ ] 5.1 Extend `build_messages` to accept an optional `historical_memories` list and render it as a section labeled distinctly from `RELEVANT USER MEMORY` (e.g. `RELEVANT HISTORICAL MEMORY`), with prompt instruction that historical entries are past state, not current, and verify a unit test confirms both sections appear correctly labeled when both are non-empty, and the historical section is omitted when empty
-- [ ] 5.2 Wire `ConversationEngine.handle_message` to call `retriever.retrieve_historical(user_message, top_k=2)` alongside the existing `retrieve()` call and pass both into `build_messages`, and verify a unit test with a mocked LLM confirms historical memories reach the prompt
+- [x] 5.1 Extend `build_messages` to accept an optional `historical_memories` list and render it as a section labeled distinctly from `RELEVANT USER MEMORY` (e.g. `RELEVANT HISTORICAL MEMORY`), with prompt instruction that historical entries are past state, not current, and verify a unit test confirms both sections appear correctly labeled when both are non-empty, and the historical section is omitted when empty
+- [x] 5.2 Wire `ConversationEngine.handle_message` to call `retriever.retrieve_historical(user_message, top_k=2)` alongside the existing `retrieve()` call and pass both into `build_messages`, and verify a unit test with a mocked LLM confirms historical memories reach the prompt
 
 ## 6. End-to-End Verification
 

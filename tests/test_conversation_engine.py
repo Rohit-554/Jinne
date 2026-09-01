@@ -1,9 +1,10 @@
 from src.chat.conversation_engine import ConversationEngine
-from src.memory.models.memory import MemoryStatus
+from src.memory.models.memory import Memory, MemoryStatus, MemoryType
 from src.memory.store.store import MemoryStore
 from src.persona.persona import DEFAULT_PERSONA
 
 EXTRACTION_SYSTEM_PREFIX = "You are the memory-extraction module"
+RESOLVER_SYSTEM_PREFIX = "You are the memory-resolution module"
 
 
 class RoutingFakeLLMProvider:
@@ -26,6 +27,27 @@ class RoutingFakeLLMProvider:
 class FakeEmbeddingProvider:
     def embed(self, text: str) -> list[float]:
         return [float(len(text)), 1.0, 0.0]
+
+
+class CapturingFakeLLMProvider:
+    """Routes to a canned chat reply, extraction JSON, or resolver JSON
+    based on the system prompt, and records the messages used for the
+    chat call so the test can inspect what reached the model."""
+
+    def __init__(self, chat_reply: str, extraction_json_by_message: dict[str, str]):
+        self._chat_reply = chat_reply
+        self._extraction_json_by_message = extraction_json_by_message
+        self.chat_messages: list[dict[str, str]] | None = None
+
+    def complete(self, messages: list[dict[str, str]]) -> str:
+        system_content = messages[0]["content"]
+        if system_content.startswith(EXTRACTION_SYSTEM_PREFIX):
+            user_message = messages[-1]["content"]
+            return self._extraction_json_by_message[user_message]
+        if system_content.startswith(RESOLVER_SYSTEM_PREFIX):
+            return '{"action": "INDEPENDENT", "superseded_memory_id": null}'
+        self.chat_messages = messages
+        return self._chat_reply
 
 
 def test_handle_message_returns_chat_reply_and_stores_extracted_fact(tmp_path):
@@ -65,5 +87,41 @@ def test_handle_message_returns_chat_reply_and_stores_extracted_fact(tmp_path):
         assert len(stored) == 1
         assert stored[0].value == "Bruno"
         assert stored[0].embedding is not None
+    finally:
+        store.close()
+
+
+def test_handle_message_includes_historical_memory_in_prompt(tmp_path):
+    embedder = FakeEmbeddingProvider()
+    store = MemoryStore(tmp_path / "companion.db")
+    try:
+        store.save(
+            Memory(
+                type=MemoryType.CAREER,
+                subject="user",
+                relation="works_at",
+                value="Google",
+                status=MemoryStatus.SUPERSEDED,
+                importance=0.9,
+                confidence=0.95,
+                source_message_id="msg-old",
+                embedding=embedder.embed("works at Google"),
+            )
+        )
+
+        user_message = "Where did I work before?"
+        provider = CapturingFakeLLMProvider(
+            chat_reply="You worked at Google before your current job!",
+            extraction_json_by_message={user_message: '{"candidates": []}'},
+        )
+        engine = ConversationEngine(llm=provider, embedder=embedder, store=store, persona=DEFAULT_PERSONA)
+
+        response = engine.handle_message(user_message)
+
+        assert response == "You worked at Google before your current job!"
+        assert provider.chat_messages is not None
+        system_content = provider.chat_messages[0]["content"]
+        assert "RELEVANT HISTORICAL MEMORY" in system_content
+        assert "Google" in system_content
     finally:
         store.close()

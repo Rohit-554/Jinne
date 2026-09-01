@@ -40,3 +40,28 @@ def test_build_messages_with_no_memories_still_includes_all_other_sections():
     assert DEFAULT_PERSONA.name in messages[0]["content"]
     assert "RELEVANT USER MEMORY" in messages[0]["content"]
     assert messages[-1] == {"role": "user", "content": "hello"}
+
+
+def test_build_messages_includes_labeled_historical_section_when_present():
+    memories = [_make_memory("Stripe interview tomorrow")]
+    historical_memories = [_make_memory("worked at Google")]
+
+    messages = build_messages(DEFAULT_PERSONA, memories, [], "Where did I work before?", historical_memories)
+
+    system_content = messages[0]["content"]
+    assert "RELEVANT USER MEMORY" in system_content
+    assert "RELEVANT HISTORICAL MEMORY" in system_content
+    assert "worked at Google" in system_content
+    assert "past state" in system_content.lower()
+
+
+def test_build_messages_omits_historical_section_when_empty():
+    messages = build_messages(DEFAULT_PERSONA, [], [], "hello", historical_memories=[])
+
+    assert "RELEVANT HISTORICAL MEMORY" not in messages[0]["content"]
+
+
+def test_build_messages_omits_historical_section_when_not_passed():
+    messages = build_messages(DEFAULT_PERSONA, [], [], "hello")
+
+    assert "RELEVANT HISTORICAL MEMORY" not in messages[0]["content"]
