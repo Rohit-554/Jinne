@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Env / secrets
+.env
+
+# SQLite data
+*.db
+*.sqlite
+*.sqlite3
+
+# Eval outputs
+eval/results/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
