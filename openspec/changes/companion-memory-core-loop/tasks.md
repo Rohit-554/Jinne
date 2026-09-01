@@ -1,8 +1,8 @@
 ## 1. Project Setup
 
-- [ ] 1.1 Create the repo structure from CLAUDE.md's Repo Structure section (`src/{chat,persona,memory/{extractor,resolver,store,retriever,models},llm,cli}`, `tests/`) and verify `python -c "import src"`-style imports resolve for each package (add `__init__.py` files as needed)
-- [ ] 1.2 Add `pyproject.toml`/`requirements.txt` with Python 3.12+, pydantic, sqlalchemy or sqlite3, python-dotenv, pytest, and an LLM SDK, and verify `pip install` (or equivalent) succeeds in a clean virtualenv
-- [ ] 1.3 Add `.env.example` documenting required environment variables (LLM provider, API key, model name, embedding model, SQLite path) and verify a copied `.env` is loaded by the app at startup
+- [x] 1.1 Create the repo structure from CLAUDE.md's Repo Structure section (`src/{chat,persona,memory/{extractor,resolver,store,retriever,models},llm,cli}`, `tests/`) and verify `python -c "import src"`-style imports resolve for each package (add `__init__.py` files as needed)
+- [x] 1.2 Add `pyproject.toml`/`requirements.txt` with Python 3.12+, pydantic, sqlalchemy or sqlite3, python-dotenv, pytest, and an LLM SDK, and verify `pip install` (or equivalent) succeeds in a clean virtualenv
+- [x] 1.3 Add `.env.example` documenting required environment variables (LLM provider, API key, model name, embedding model, SQLite path) and verify a copied `.env` is loaded by the app at startup
 
 ## 2. Memory Store (`memory/memory-store`)
 

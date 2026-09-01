@@ -27,5 +27,5 @@ We need a working core loop before any of the memory-intelligence, evaluation, o
 
 - New repo structure under `src/` (`chat/`, `persona/`, `memory/{extractor,store,retriever,models}/`, `llm/`, `cli/`) and `tests/` per CLAUDE.md's Repo Structure section.
 - New SQLite database file (local, on disk) as the memory source of truth.
-- New dependency on an LLM provider API (OpenAI/Anthropic/Gemini, configurable via environment variables) and an embeddings source.
+- New dependency on an LLM provider API (Groq, configurable via environment variables and swappable behind the provider interface) and a local embeddings model (fastembed) so no paid API key is required for retrieval.
 - Out of scope for this change (left for follow-up changes per PLANNING.md P1–P3): contradiction/supersede resolution, temporal/historical queries, memory decay, hybrid reranking beyond basic similarity, `/memory-debug` and `/memory-timeline` commands, persona drift detection, and the evaluation harness.
