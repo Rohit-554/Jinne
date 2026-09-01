@@ -48,6 +48,6 @@
 
 ## 8. End-to-End Milestone Verification
 
-- [ ] 8.1 Verify PLANNING.md's Starting Plan milestone end-to-end: run the CLI, say "My dog's name is Bruno", exit the process, restart the CLI, ask "What is my dog's name?", and confirm the response contains "Bruno"
-- [ ] 8.2 Verify the response is sourced from persisted memory and not in-process history by confirming the answer is correct even when the process was fully restarted (no in-memory conversation state carried over)
-- [ ] 8.3 Verify persona presence: ask an unrelated question and confirm the response tone/style matches the defined persona rather than generic assistant phrasing (manual/spot check)
+- [x] 8.1 Verify PLANNING.md's Starting Plan milestone end-to-end: run the CLI, say "My dog's name is Bruno", exit the process, restart the CLI, ask "What is my dog's name?", and confirm the response contains "Bruno" (verified across two separate OS process invocations sharing one SQLite file)
+- [x] 8.2 Verify the response is sourced from persisted memory and not in-process history by confirming the answer is correct even when the process was fully restarted (no in-memory conversation state carried over) (verified: second session is a brand-new process with empty in-memory history)
+- [x] 8.3 Verify persona presence: ask an unrelated question and confirm the response tone/style matches the defined persona rather than generic assistant phrasing (manual/spot check) (verified live; also found and fixed a context-builder bug where bare memory values, stripped of their relation, caused the model to confuse the user with their own dog)

@@ -12,7 +12,7 @@ def build_messages(
     persona_block = render_persona(persona)
 
     if memories:
-        memory_lines = "\n".join(f"- {m.value}" for m in memories)
+        memory_lines = "\n".join(f"- {m.relation.replace('_', ' ')}: {m.value}" for m in memories)
     else:
         memory_lines = "(none)"
     memory_block = f"RELEVANT USER MEMORY\n{memory_lines}"
