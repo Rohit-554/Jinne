@@ -20,11 +20,11 @@
 
 ## 4. Memory Extraction (`memory/memory-extraction`)
 
-- [ ] 4.1 Define the extraction output schema (Pydantic) capturing decision (SAVE/IGNORE), type, subject, relation, value, importance, confidence per candidate, and verify invalid LLM output fails Pydantic validation in a unit test
-- [ ] 4.2 Write the extraction prompt encoding the memory taxonomy (PLANNING.md's Memory Types section) and SAVE/IGNORE guidance (PLANNING.md's Memory Extraction section), and implement `MemoryExtractor.extract(message) -> list[MemoryCandidate]` using the LLM provider
-- [ ] 4.3 Verify extraction behavior with recorded/mocked LLM responses: "My dog's name is Bruno" yields a SAVE candidate; "hi" and "I'm eating pizza right now" yield no SAVE candidates
-- [ ] 4.4 Verify multi-fact extraction: "I finally joined Microsoft as an Android engineer" yields two SAVE candidates (works_at=Microsoft, job_role=Android Engineer) with a mocked LLM response
-- [ ] 4.5 Wire extraction to storage: after extraction, SAVE candidates are persisted via `MemoryStore.save` with status ACTIVE, and verify an integration test confirms a message results in a queryable stored memory
+- [x] 4.1 Define the extraction output schema (Pydantic) capturing decision (SAVE/IGNORE), type, subject, relation, value, importance, confidence per candidate, and verify invalid LLM output fails Pydantic validation in a unit test
+- [x] 4.2 Write the extraction prompt encoding the memory taxonomy (PLANNING.md's Memory Types section) and SAVE/IGNORE guidance (PLANNING.md's Memory Extraction section), and implement `MemoryExtractor.extract(message) -> list[MemoryCandidate]` using the LLM provider
+- [x] 4.3 Verify extraction behavior with recorded/mocked LLM responses: "My dog's name is Bruno" yields a SAVE candidate; "hi" and "I'm eating pizza right now" yield no SAVE candidates (also confirmed live against the real Groq model)
+- [x] 4.4 Verify multi-fact extraction: "I finally joined Microsoft as an Android engineer" yields two SAVE candidates (works_at=Microsoft, job_role=Android Engineer) with a mocked LLM response (also confirmed live)
+- [x] 4.5 Wire extraction to storage: after extraction, SAVE candidates are persisted via `MemoryStore.save` with status ACTIVE, and verify an integration test confirms a message results in a queryable stored memory
 
 ## 5. Memory Retrieval (`memory/memory-retrieval`)
 
