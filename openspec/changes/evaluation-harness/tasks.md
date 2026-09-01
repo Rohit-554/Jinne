@@ -26,9 +26,9 @@
 
 ## 5. Metrics and Reporting
 
-- [ ] 5.1 Implement metrics aggregation: per-category and overall `pass_rate`, `partial_rate`, `fail_rate` computed strictly from the list of `ScenarioResult`s, and verify a unit test with a small fixed set of results produces the expected rates
-- [ ] 5.2 Implement report writing: a JSON file under `eval/results/` per run (timestamped filename) containing the computed metrics, the full list of scenario results, and a short methodology note documenting the LLM-judge limitations, and verify a unit test confirms the written file round-trips (contains the same metrics and result count that were passed in)
-- [ ] 5.3 Verify failure detail is present for every non-PASS scenario in the written report (unit test with a mix of PASS/FAIL/PARTIAL results)
+- [x] 5.1 Implement metrics aggregation: per-category and overall `pass_rate`, `partial_rate`, `fail_rate` computed strictly from the list of `ScenarioResult`s, and verify a unit test with a small fixed set of results produces the expected rates
+- [x] 5.2 Implement report writing: a JSON file under `eval/results/` per run (timestamped filename) containing the computed metrics, the full list of scenario results, and a short methodology note documenting the LLM-judge limitations, and verify a unit test confirms the written file round-trips (contains the same metrics and result count that were passed in)
+- [x] 5.3 Verify failure detail is present for every non-PASS scenario in the written report (unit test with a mix of PASS/FAIL/PARTIAL results)
 
 ## 6. Entry Point and Full Live Run
 
