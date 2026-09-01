@@ -19,10 +19,10 @@
 
 ## 4. Eval Runner: Verdicts
 
-- [ ] 4.1 Implement the deterministic check: for FACTUAL_RECALL / LONG_RANGE_RECALL / CONTRADICTION_UPDATE / TEMPORAL_REASONING scenarios, verdict is PASS if `expected_substring.lower()` is in the response (case-insensitive), else FAIL, and verify unit tests for both cases
-- [ ] 4.2 Define `PersonaJudgment` (verdict: PASS/FAIL/PARTIAL, reasoning: str) and write the judge prompt (given persona traits + the scenario's `persona_expectation` + the actual response, classify consistency), and implement the judge call using the LLM provider, and verify a unit test with a mocked LLM response parses a valid judgment
-- [ ] 4.3 Wire verdict selection: PERSONA_CONSISTENCY scenarios use the LLM judge, all other categories use the deterministic check, and verify a unit test confirms the correct check is used per category
-- [ ] 4.4 Implement `ScenarioResult` (scenario_id, category, verdict, response, expected, reasoning: str | None) and produce one per executed scenario, and verify a unit test confirms all fields are populated, with `reasoning` set only for judged scenarios
+- [x] 4.1 Implement the deterministic check: for FACTUAL_RECALL / LONG_RANGE_RECALL / CONTRADICTION_UPDATE / TEMPORAL_REASONING scenarios, verdict is PASS if `expected_substring.lower()` is in the response (case-insensitive), else FAIL, and verify unit tests for both cases
+- [x] 4.2 Define `PersonaJudgment` (verdict: PASS/FAIL/PARTIAL, reasoning: str) and write the judge prompt (given persona traits + the scenario's `persona_expectation` + the actual response, classify consistency), and implement the judge call using the LLM provider, and verify a unit test with a mocked LLM response parses a valid judgment
+- [x] 4.3 Wire verdict selection: PERSONA_CONSISTENCY scenarios use the LLM judge, all other categories use the deterministic check, and verify a unit test confirms the correct check is used per category
+- [x] 4.4 Implement `ScenarioResult` (scenario_id, category, verdict, response, expected, reasoning: str | None) and produce one per executed scenario, and verify a unit test confirms all fields are populated, with `reasoning` set only for judged scenarios
 
 ## 5. Metrics and Reporting
 
