@@ -1,7 +1,7 @@
 ## 1. Memory Store: Status Updates
 
-- [ ] 1.1 Implement `MemoryStore.update_status(memory_id, status, valid_until=None)` that mutates the existing row's status/valid_until/updated_at in place and returns the updated `Memory`, and verify a unit test confirms the row's id, type, subject, relation, and value are unchanged while status/valid_until/updated_at reflect the update
-- [ ] 1.2 Verify updating a nonexistent memory id raises a clear error, with a unit test
+- [x] 1.1 Implement `MemoryStore.update_status(memory_id, status, valid_until=None)` that mutates the existing row's status/valid_until/updated_at in place and returns the updated `Memory`, and verify a unit test confirms the row's id, type, subject, relation, and value are unchanged while status/valid_until/updated_at reflect the update
+- [x] 1.2 Verify updating a nonexistent memory id raises a clear error, with a unit test
 
 ## 2. Memory Resolver
 

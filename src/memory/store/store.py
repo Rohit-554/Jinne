@@ -1,9 +1,14 @@
 import json
+from datetime import datetime
 from pathlib import Path
 
-from src.memory.models.memory import Memory, MemoryStatus
+from src.memory.models.memory import Memory, MemoryStatus, utcnow
 from src.memory.store.db import make_engine, make_session_factory
 from src.memory.store.schema import MemoryRow
+
+
+class MemoryNotFoundError(LookupError):
+    pass
 
 
 class MemoryStore:
@@ -34,6 +39,24 @@ class MemoryStore:
                 embedding=_encode_embedding(memory.embedding),
             )
             session.add(row)
+            session.commit()
+            session.refresh(row)
+            return _row_to_memory(row)
+
+    def update_status(
+        self,
+        memory_id: int,
+        status: MemoryStatus,
+        valid_until: datetime | None = None,
+    ) -> Memory:
+        with self._session_factory() as session:
+            row = session.get(MemoryRow, memory_id)
+            if row is None:
+                raise MemoryNotFoundError(f"No memory with id {memory_id}")
+
+            row.status = status
+            row.valid_until = valid_until
+            row.updated_at = utcnow()
             session.commit()
             session.refresh(row)
             return _row_to_memory(row)

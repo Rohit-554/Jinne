@@ -1,5 +1,7 @@
+import pytest
+
 from src.memory.models.memory import Memory, MemoryStatus, MemoryType
-from src.memory.store.store import MemoryStore
+from src.memory.store.store import MemoryNotFoundError, MemoryStore
 
 
 def _make_memory(**overrides) -> Memory:
@@ -57,6 +59,53 @@ def test_list_filters_by_active_status(tmp_path):
 
         assert [m.id for m in active_only] == [active.id]
         assert all(m.status == MemoryStatus.ACTIVE for m in active_only)
+    finally:
+        store.close()
+
+
+def test_update_status_mutates_in_place(tmp_path):
+    store = MemoryStore(tmp_path / "companion.db")
+    try:
+        saved = store.save(_make_memory())
+        original_updated_at = saved.updated_at
+
+        updated = store.update_status(saved.id, MemoryStatus.SUPERSEDED)
+
+        assert updated.id == saved.id
+        assert updated.type == saved.type
+        assert updated.subject == saved.subject
+        assert updated.relation == saved.relation
+        assert updated.value == saved.value
+        assert updated.status == MemoryStatus.SUPERSEDED
+        assert updated.valid_until is None
+        assert updated.updated_at >= original_updated_at
+
+        fetched = store.get(saved.id)
+        assert fetched.status == MemoryStatus.SUPERSEDED
+    finally:
+        store.close()
+
+
+def test_update_status_sets_valid_until(tmp_path):
+    from src.memory.models.memory import utcnow
+
+    store = MemoryStore(tmp_path / "companion.db")
+    try:
+        saved = store.save(_make_memory())
+        cutoff = utcnow()
+
+        updated = store.update_status(saved.id, MemoryStatus.SUPERSEDED, valid_until=cutoff)
+
+        assert updated.valid_until == cutoff
+    finally:
+        store.close()
+
+
+def test_update_status_raises_for_unknown_id(tmp_path):
+    store = MemoryStore(tmp_path / "companion.db")
+    try:
+        with pytest.raises(MemoryNotFoundError):
+            store.update_status(999, MemoryStatus.SUPERSEDED)
     finally:
         store.close()
 
