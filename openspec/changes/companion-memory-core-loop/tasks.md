@@ -41,10 +41,10 @@
 
 ## 7. Conversation Loop & Context Builder (`chat/conversation-loop`)
 
-- [ ] 7.1 Implement the `ContextBuilder` that assembles persona block + retrieved memories + recent conversational turns + current user message into the LLM prompt, and verify a unit test confirms all four sections are present when memories are retrieved
-- [ ] 7.2 Implement the `ConversationEngine` CLI loop (input → retrieve → build context → call LLM → print response → extract & store), and verify manually that a single turn produces a printed response
-- [ ] 7.3 Wire the extraction step to run on every user message per turn (§4.5) inside the loop, and verify an integration test confirms a fact mentioned mid-conversation is present in the store afterward
-- [ ] 7.4 Add a CLI entry point (`/chat` or default `python -m src.cli`) and a clean exit command, and verify the loop starts and exits without error
+- [x] 7.1 Implement the `ContextBuilder` that assembles persona block + retrieved memories + recent conversational turns + current user message into the LLM prompt, and verify a unit test confirms all four sections are present when memories are retrieved
+- [x] 7.2 Implement the `ConversationEngine` CLI loop (input → retrieve → build context → call LLM → print response → extract & store), and verify manually that a single turn produces a printed response (verified live via `python -m src.cli`; also uncovered and fixed a Windows console UTF-8 encoding bug on emoji output)
+- [x] 7.3 Wire the extraction step to run on every user message per turn (§4.5) inside the loop, and verify an integration test confirms a fact mentioned mid-conversation is present in the store afterward
+- [x] 7.4 Add a CLI entry point (`/chat` or default `python -m src.cli`) and a clean exit command, and verify the loop starts and exits without error
 
 ## 8. End-to-End Milestone Verification
 
