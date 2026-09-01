@@ -47,7 +47,11 @@ def run(
         if user_message.lower() in EXIT_COMMANDS:
             break
 
-        response = engine.handle_message(user_message)
+        try:
+            response = engine.handle_message(user_message)
+        except Exception as exc:
+            print(f"(sorry, something went wrong on that turn: {exc!r})", file=output_stream)
+            continue
         print(response, file=output_stream)
 
 

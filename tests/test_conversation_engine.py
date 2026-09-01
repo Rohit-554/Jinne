@@ -125,3 +125,37 @@ def test_handle_message_includes_historical_memory_in_prompt(tmp_path):
         assert "Google" in system_content
     finally:
         store.close()
+
+
+class BrokenExtractionLLMProvider:
+    """Returns a normal chat reply, but garbage JSON for extraction, to
+    simulate a malformed/unreliable LLM response during memory
+    processing."""
+
+    def __init__(self, chat_reply: str):
+        self._chat_reply = chat_reply
+
+    def complete(self, messages: list[dict[str, str]]) -> str:
+        system_content = messages[0]["content"]
+        if system_content.startswith(EXTRACTION_SYSTEM_PREFIX):
+            return "not valid json at all"
+        return self._chat_reply
+
+
+def test_handle_message_still_returns_reply_when_memory_processing_fails(tmp_path):
+    store = MemoryStore(tmp_path / "companion.db")
+    try:
+        provider = BrokenExtractionLLMProvider(chat_reply="Still here for you!")
+        engine = ConversationEngine(
+            llm=provider,
+            embedder=FakeEmbeddingProvider(),
+            store=store,
+            persona=DEFAULT_PERSONA,
+        )
+
+        response = engine.handle_message("this will fail to extract")
+
+        assert response == "Still here for you!"
+        assert store.list() == []
+    finally:
+        store.close()

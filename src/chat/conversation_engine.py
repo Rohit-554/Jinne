@@ -1,3 +1,4 @@
+import sys
 import uuid
 
 from src.chat.context_builder import build_messages
@@ -48,13 +49,16 @@ class ConversationEngine:
         self._recent_turns = self._recent_turns[-RECENT_TURNS_WINDOW:]
 
         message_id = str(uuid.uuid4())
-        extract_and_store(
-            self._extractor,
-            self._store,
-            user_message,
-            message_id,
-            embedder=self._embedder,
-            resolver=self._resolver,
-        )
+        try:
+            extract_and_store(
+                self._extractor,
+                self._store,
+                user_message,
+                message_id,
+                embedder=self._embedder,
+                resolver=self._resolver,
+            )
+        except Exception as exc:
+            print(f"[memory update failed, continuing conversation: {exc!r}]", file=sys.stderr)
 
         return response
