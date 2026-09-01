@@ -3,6 +3,7 @@ from src.memory.extractor.json_utils import parse_json_object
 from src.memory.extractor.prompts import build_messages
 from src.memory.extractor.schemas import ExtractionDecision, ExtractionResult, MemoryCandidate
 from src.memory.models.memory import Memory
+from src.memory.resolver.resolver import MemoryResolver
 from src.memory.retriever.embedding import embed_memory
 from src.memory.store.store import MemoryStore
 
@@ -39,6 +40,7 @@ def extract_and_store(
     message: str,
     source_message_id: str,
     embedder: EmbeddingProvider | None = None,
+    resolver: MemoryResolver | None = None,
 ) -> list[Memory]:
     candidates = extractor.extract(message)
     saved: list[Memory] = []
@@ -48,5 +50,9 @@ def extract_and_store(
         memory = candidate_to_memory(candidate, source_message_id)
         if embedder is not None:
             memory = embed_memory(embedder, memory)
+        if resolver is not None:
+            memory = resolver.resolve(memory, store)
+            if memory is None:
+                continue
         saved.append(store.save(memory))
     return saved

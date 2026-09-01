@@ -13,8 +13,8 @@
 
 ## 3. Wire Resolver into Extraction and Storage
 
-- [ ] 3.1 Replace the direct `store.save` call in `extract_and_store` with a resolver-backed path: each SAVE candidate is embedded (as before) and passed through `MemoryResolver.resolve`, and the result (if any) is what gets saved, and verify existing extraction tests still pass with the resolver wired in (duplicate/uncertain cases return no additional row; superseded/independent cases behave as in Task Group 2)
-- [ ] 3.2 Verify an integration test: given a store already containing an ACTIVE `works_at: Google` memory, running extraction+resolution on "I left Google and joined Microsoft" (mocked LLM extraction + resolver responses) results in Google SUPERSEDED and Microsoft ACTIVE in the store afterward
+- [x] 3.1 Replace the direct `store.save` call in `extract_and_store` with a resolver-backed path: each SAVE candidate is embedded (as before) and passed through `MemoryResolver.resolve`, and the result (if any) is what gets saved, and verify existing extraction tests still pass with the resolver wired in (duplicate/uncertain cases return no additional row; superseded/independent cases behave as in Task Group 2)
+- [x] 3.2 Verify an integration test: given a store already containing an ACTIVE `works_at: Google` memory, running extraction+resolution on "I left Google and joined Microsoft" (mocked LLM extraction + resolver responses) results in Google SUPERSEDED and Microsoft ACTIVE in the store afterward
 
 ## 4. Historical Memory Retrieval
 
