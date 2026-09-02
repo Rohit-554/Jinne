@@ -1,3 +1,5 @@
+from collections.abc import Iterator
+
 from groq import Groq
 
 
@@ -12,3 +14,14 @@ class GroqProvider:
             messages=messages,
         )
         return response.choices[0].message.content
+
+    def complete_stream(self, messages: list[dict[str, str]]) -> Iterator[str]:
+        stream = self._client.chat.completions.create(
+            model=self._model,
+            messages=messages,
+            stream=True,
+        )
+        for chunk in stream:
+            delta = chunk.choices[0].delta.content
+            if delta:
+                yield delta

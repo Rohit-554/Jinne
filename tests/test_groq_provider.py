@@ -23,3 +23,21 @@ def test_complete_returns_non_empty_response():
 
     assert isinstance(response, str)
     assert len(response.strip()) > 0
+
+
+@pytest.mark.skipif(not GROQ_API_KEY, reason="GROQ_API_KEY not set - skipping live smoke test")
+def test_complete_stream_yields_multiple_chunks_that_concatenate():
+    provider = GroqProvider(api_key=GROQ_API_KEY, model=GROQ_MODEL)
+
+    try:
+        chunks = list(
+            provider.complete_stream(
+                [{"role": "user", "content": "Count from one to ten, one number per line."}]
+            )
+        )
+    except groq.RateLimitError as exc:
+        pytest.skip(f"Groq rate/quota limit hit, not a code issue: {exc}")
+
+    assert len(chunks) > 1
+    full_response = "".join(chunks)
+    assert len(full_response.strip()) > 0

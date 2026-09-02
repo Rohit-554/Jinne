@@ -211,6 +211,161 @@ def test_get_last_retrieval_debug_reflects_last_turns_retrieval(tmp_path):
         store.close()
 
 
+class RoutingFakeStreamingLLMProvider(RoutingFakeLLMProvider):
+    """Same routing as RoutingFakeLLMProvider, plus complete_stream that
+    yields the chat reply in a few chunks."""
+
+    def complete_stream(self, messages: list[dict[str, str]]):
+        reply = self.complete(messages)
+        chunk_size = max(1, len(reply) // 3)
+        for i in range(0, len(reply), chunk_size):
+            yield reply[i : i + chunk_size]
+
+
+def test_handle_message_stream_yields_chunks_that_concatenate_to_full_reply(tmp_path):
+    user_message = "My dog's name is Bruno."
+    provider = RoutingFakeStreamingLLMProvider(
+        chat_reply="Bruno sounds like a good boy!",
+        extraction_json_by_message={user_message: '{"candidates": []}'},
+    )
+    store = MemoryStore(tmp_path / "companion.db")
+    try:
+        engine = ConversationEngine(
+            llm=provider,
+            embedder=FakeEmbeddingProvider(),
+            store=store,
+            persona=DEFAULT_PERSONA,
+        )
+
+        chunks = list(engine.handle_message_stream(user_message))
+
+        assert len(chunks) > 1
+        assert "".join(chunks) == "Bruno sounds like a good boy!"
+    finally:
+        store.close()
+
+
+def test_handle_message_stream_still_finalizes_turn_after_streaming(tmp_path):
+    user_message = "My dog's name is Bruno."
+    provider = RoutingFakeStreamingLLMProvider(
+        chat_reply="Bruno!",
+        extraction_json_by_message={
+            user_message: """{
+                "candidates": [{
+                    "decision": "SAVE", "type": "RELATIONSHIP", "subject": "user",
+                    "relation": "pet_name", "value": "Bruno",
+                    "importance": 0.8, "confidence": 0.95
+                }]
+            }"""
+        },
+    )
+    store = MemoryStore(tmp_path / "companion.db")
+    try:
+        engine = ConversationEngine(
+            llm=provider,
+            embedder=FakeEmbeddingProvider(),
+            store=store,
+            persona=DEFAULT_PERSONA,
+        )
+
+        list(engine.handle_message_stream(user_message))
+
+        stored = store.list(status=MemoryStatus.ACTIVE)
+        assert len(stored) == 1
+        assert stored[0].value == "Bruno"
+    finally:
+        store.close()
+
+
+def test_handle_message_stream_raises_for_non_streaming_provider(tmp_path):
+    store = MemoryStore(tmp_path / "companion.db")
+    try:
+        engine = ConversationEngine(
+            llm=RoutingFakeLLMProvider(chat_reply="hi", extraction_json_by_message={}),
+            embedder=FakeEmbeddingProvider(),
+            store=store,
+            persona=DEFAULT_PERSONA,
+        )
+
+        try:
+            engine.handle_message_stream("hello")
+            assert False, "expected TypeError"
+        except TypeError:
+            pass
+    finally:
+        store.close()
+
+
+def test_get_last_turn_memory_changes_empty_before_any_turn(tmp_path):
+    store = MemoryStore(tmp_path / "companion.db")
+    try:
+        engine = ConversationEngine(
+            llm=RoutingFakeLLMProvider(chat_reply="hi", extraction_json_by_message={}),
+            embedder=FakeEmbeddingProvider(),
+            store=store,
+            persona=DEFAULT_PERSONA,
+        )
+
+        created, updated = engine.get_last_turn_memory_changes()
+        assert created == []
+        assert updated == []
+    finally:
+        store.close()
+
+
+def test_get_last_turn_memory_changes_reflects_a_supersede(tmp_path):
+    embedder = FakeEmbeddingProvider()
+    store = MemoryStore(tmp_path / "companion.db")
+    try:
+        google = store.save(
+            Memory(
+                type=MemoryType.CAREER,
+                subject="user",
+                relation="works_at",
+                value="Google",
+                status=MemoryStatus.ACTIVE,
+                importance=0.9,
+                confidence=0.95,
+                source_message_id="msg-old",
+                embedding=embedder.embed("works at Google"),
+            )
+        )
+
+        user_message = "I left Google and joined Microsoft."
+        provider = RoutingFakeLLMProvider(
+            chat_reply="Congrats on the new job!",
+            extraction_json_by_message={
+                user_message: """{
+                    "candidates": [{
+                        "decision": "SAVE", "type": "CAREER", "subject": "user",
+                        "relation": "works_at", "value": "Microsoft",
+                        "importance": 0.9, "confidence": 0.95
+                    }]
+                }"""
+            },
+        )
+
+        class ResolverProvider:
+            def complete(self, messages):
+                system_content = messages[0]["content"]
+                if system_content.startswith(RESOLVER_SYSTEM_PREFIX):
+                    return f'{{"action": "SUPERSEDE", "superseded_memory_id": {google.id}}}'
+                return provider.complete(messages)
+
+        engine = ConversationEngine(
+            llm=ResolverProvider(), embedder=embedder, store=store, persona=DEFAULT_PERSONA
+        )
+
+        engine.handle_message(user_message)
+        created, updated = engine.get_last_turn_memory_changes()
+
+        assert [m.value for m in created] == ["Microsoft"]
+        assert [m.value for m in updated] == ["Google"]
+        assert updated[0].status == MemoryStatus.SUPERSEDED
+    finally:
+        store.close()
+
+
 def test_list_all_memories_returns_every_status(tmp_path):
     store = MemoryStore(tmp_path / "companion.db")
     try:
