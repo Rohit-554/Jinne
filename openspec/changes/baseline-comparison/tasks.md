@@ -11,8 +11,8 @@
 
 ## 3. Baseline B: Naive Vector Memory
 
-- [ ] 3.1 Implement `BaselineBEngine` reusing the proposed system's `MemoryExtractor`, `MemoryRetriever`, and `build_messages`, calling `extract_and_store(..., resolver=None)` so every SAVE candidate becomes a new ACTIVE row, and verify a unit test (mocked LLM) confirms a contradicted fact leaves both the original and the new memory ACTIVE and retrievable
-- [ ] 3.2 Add `baseline_b_factory(llm, embedder, store)` usable as an `engine_factory`, and verify a unit test running a scenario through `run_scenario` with this factory persists memories the same way the proposed system's extraction does, minus any supersede behavior
+- [x] 3.1 Implement `BaselineBEngine` reusing the proposed system's `MemoryExtractor`, `MemoryRetriever`, and `build_messages`, calling `extract_and_store(..., resolver=None)` so every SAVE candidate becomes a new ACTIVE row, and verify a unit test (mocked LLM) confirms a contradicted fact leaves both the original and the new memory ACTIVE and retrievable
+- [x] 3.2 Add `baseline_b_factory(llm, embedder, store)` usable as an `engine_factory`, and verify a unit test running a scenario through `run_scenario` with this factory persists memories the same way the proposed system's extraction does, minus any supersede behavior
 
 ## 4. Comparison Reporting
 
