@@ -6,10 +6,10 @@
 
 ## 2. FastAPI Service
 
-- [ ] 2.1 Add `src/api/app.py` with a FastAPI app constructing one shared `ConversationEngine` at startup against the configured `MemoryStore`, and CORS enabled for the local Vite dev origin
-- [ ] 2.2 Add `POST /api/chat`: a `text/event-stream` response streaming `handle_message_stream`'s chunks, followed by a final named SSE event carrying the turn's JSON metadata (retrieved/created/updated memory summaries from `get_last_retrieval_debug`/`get_last_turn_memory_changes`), and verify a test client receives multiple chunks plus a well-formed final metadata event
-- [ ] 2.3 Add `GET /api/memories`: returns all currently ACTIVE memories as JSON (excluding the `embedding` field), and verify a test confirms only ACTIVE memories are returned
-- [ ] 2.4 Verify with a live `uvicorn` process and `curl`/an SSE-aware script: a real chat request streams real chunks from the real model and a real metadata event, and `/api/memories` returns real stored memories
+- [x] 2.1 Add `src/api/app.py` with a FastAPI app constructing one shared `ConversationEngine` at startup against the configured `MemoryStore`, and CORS enabled for the local Vite dev origin
+- [x] 2.2 Add `POST /api/chat`: a `text/event-stream` response streaming `handle_message_stream`'s chunks, followed by a final named SSE event carrying the turn's JSON metadata (retrieved/created/updated memory summaries from `get_last_retrieval_debug`/`get_last_turn_memory_changes`), and verify a test client receives multiple chunks plus a well-formed final metadata event
+- [x] 2.3 Add `GET /api/memories`: returns all currently ACTIVE memories as JSON (excluding the `embedding` field), and verify a test confirms only ACTIVE memories are returned
+- [x] 2.4 Verify with a live `uvicorn` process and `curl`/an SSE-aware script: a real chat request streams real chunks from the real model and a real metadata event, and `/api/memories` returns real stored memories. Also live-verified a contradiction turn; it surfaced the already-documented relation-naming limitation (extraction used `previous_employer`/`current_employer` instead of reusing `works_at`, so nothing superseded) rather than a bug in the new metadata code, which the mocked unit test already proves correct for the case where the resolver does supersede
 
 ## 3. Frontend Scaffold and Chat Page
 
