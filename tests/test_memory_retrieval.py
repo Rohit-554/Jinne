@@ -143,3 +143,24 @@ def test_retrieve_historical_returns_empty_when_no_superseded_memories(tmp_path,
         assert results == []
     finally:
         store.close()
+
+
+def test_retrieve_scored_returns_full_breakdown_per_candidate(tmp_path, embedder):
+    store = MemoryStore(tmp_path / "companion.db")
+    try:
+        _seed(store, embedder, relation="pet_name", value="Bruno")
+        _seed(store, embedder, relation="upcoming_event", value="Stripe interview tomorrow")
+
+        retriever = MemoryRetriever(embedder, store)
+        scored = retriever.retrieve_scored("I'm nervous about tomorrow", top_k=2)
+
+        assert len(scored) == 2
+        for entry in scored:
+            assert 0.0 <= entry.importance_weight <= 1.0
+            assert 0.0 <= entry.confidence_weight <= 1.0
+            assert 0.0 <= entry.recency_weight <= 1.0
+            assert isinstance(entry.final_score, float)
+        scores = [entry.final_score for entry in scored]
+        assert scores == sorted(scores, reverse=True)
+    finally:
+        store.close()
