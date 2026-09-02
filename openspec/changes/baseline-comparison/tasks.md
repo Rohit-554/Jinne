@@ -16,8 +16,8 @@
 
 ## 4. Comparison Reporting
 
-- [ ] 4.1 Implement `run_comparison(scenarios, llm, embedder, systems: dict[str, engine_factory]) -> dict[str, list[ScenarioResult]]` running every scenario against every named system, and verify a unit test with two fake systems confirms both get results for every scenario
-- [ ] 4.2 Implement `write_comparison_report(results_by_system, results_dir) -> Path` writing a JSON report with per-system, per-category, and overall pass rates plus a methodology note (naming which systems were run fresh vs reused from a prior canonical result), and verify a unit test confirms the written file contains all systems' metrics
+- [x] 4.1 Implement `run_comparison(scenarios, llm, embedder, systems: dict[str, engine_factory]) -> dict[str, list[ScenarioResult]]` running every scenario against every named system, and verify a unit test with two fake systems confirms both get results for every scenario
+- [x] 4.2 Implement `write_comparison_report(results_by_system, results_dir) -> Path` writing a JSON report with per-system, per-category, and overall pass rates plus a methodology note (naming which systems were run fresh vs reused from a prior canonical result), and verify a unit test confirms the written file contains all systems' metrics
 
 ## 5. Live Comparison Run
 
