@@ -1,14 +1,19 @@
 from src.evaluation.judge import judge_persona_consistency
 from src.evaluation.results import ScenarioResult
-from src.evaluation.runner import run_scenario
+from src.evaluation.runner import EngineFactory, proposed_system_factory, run_scenario
 from src.evaluation.scenarios import Scenario, ScenarioCategory
 from src.evaluation.verdicts import deterministic_check
 from src.llm.provider import EmbeddingProvider, LLMProvider
 from src.persona.persona import DEFAULT_PERSONA
 
 
-def evaluate_scenario(scenario: Scenario, llm: LLMProvider, embedder: EmbeddingProvider) -> ScenarioResult:
-    response, store = run_scenario(scenario, llm, embedder)
+def evaluate_scenario(
+    scenario: Scenario,
+    llm: LLMProvider,
+    embedder: EmbeddingProvider,
+    engine_factory: EngineFactory = proposed_system_factory,
+) -> ScenarioResult:
+    response, store = run_scenario(scenario, llm, embedder, engine_factory=engine_factory)
     store.close()
 
     if scenario.category == ScenarioCategory.PERSONA_CONSISTENCY:

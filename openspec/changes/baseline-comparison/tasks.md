@@ -1,8 +1,8 @@
 ## 1. Generalize the Eval Runner
 
-- [ ] 1.1 Add an `engine_factory: Callable[[LLMProvider, EmbeddingProvider, MemoryStore], object]` parameter to `run_scenario`, defaulting to a factory that builds the proposed system's `ConversationEngine` (preserving current behavior), and verify existing `evaluation-harness` tests for `run_scenario` still pass unchanged
-- [ ] 1.2 Thread the same optional `engine_factory` parameter through `evaluate_scenario`, defaulting the same way, and verify existing `evaluate_scenario` tests still pass unchanged
-- [ ] 1.3 Verify a unit test: passing a custom factory (a minimal fake engine) causes `run_scenario` to drive that fake instead of the proposed system, with turns still sent in order
+- [x] 1.1 Add an `engine_factory: Callable[[LLMProvider, EmbeddingProvider, MemoryStore], object]` parameter to `run_scenario`, defaulting to a factory that builds the proposed system's `ConversationEngine` (preserving current behavior), and verify existing `evaluation-harness` tests for `run_scenario` still pass unchanged
+- [x] 1.2 Thread the same optional `engine_factory` parameter through `evaluate_scenario`, defaulting the same way, and verify existing `evaluate_scenario` tests still pass unchanged
+- [x] 1.3 Verify a unit test: passing a custom factory (a minimal fake engine) causes `run_scenario` to drive that fake instead of the proposed system, with turns still sent in order
 
 ## 2. Baseline A: Context-Only, No Memory
 

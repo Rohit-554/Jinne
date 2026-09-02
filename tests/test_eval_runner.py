@@ -103,3 +103,34 @@ def test_run_scenario_stores_are_isolated_between_scenarios():
     finally:
         store1.close()
         store2.close()
+
+
+class FakeEngine:
+    def __init__(self, llm, embedder, store):
+        self.received_messages: list[str] = []
+
+    def handle_message(self, user_message: str) -> str:
+        self.received_messages.append(user_message)
+        return f"fake reply to: {user_message}"
+
+
+def test_run_scenario_uses_a_custom_engine_factory():
+    scenario = Scenario(
+        id="s1",
+        category=ScenarioCategory.LONG_RANGE_RECALL,
+        turns=["turn one", "turn two"],
+        final_question="final question",
+        expected_substring="x",
+    )
+
+    response, store = run_scenario(
+        scenario,
+        llm=None,
+        embedder=None,
+        engine_factory=FakeEngine,
+    )
+
+    try:
+        assert response == "fake reply to: final question"
+    finally:
+        store.close()
