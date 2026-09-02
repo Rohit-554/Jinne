@@ -1,8 +1,8 @@
 ## 1. Ground Truth Dataset
 
-- [ ] 1.1 Define `ExtractionCase` (id, message, expected: list of `{relation, value}`, empty list for IGNORE cases) as a Pydantic model with a `load_extraction_cases(path) -> list[ExtractionCase]` JSONL loader, mirroring `scenarios.py`'s pattern, and verify a unit test loads a small fixture file
-- [ ] 1.2 Author `eval/scenarios/extraction_cases.jsonl` with ~20 cases: PLANNING.md's own examples verbatim (pizza SAVE/IGNORE pair, Microsoft+Android-engineer multi-fact message), several more clear SAVE cases across different memory types, several more clear IGNORE cases (greetings, trivial immediate state), and at least one genuine multi-fact message beyond the PLANNING example
-- [ ] 1.3 Verify the dataset loads without error and has at least 20 cases, with both SAVE (non-empty expected) and IGNORE (empty expected) cases represented
+- [x] 1.1 Define `ExtractionCase` (id, message, expected: list of `{relation, value}`, empty list for IGNORE cases) as a Pydantic model with a `load_extraction_cases(path) -> list[ExtractionCase]` JSONL loader, mirroring `scenarios.py`'s pattern, and verify a unit test loads a small fixture file
+- [x] 1.2 Author `eval/scenarios/extraction_cases.jsonl` with ~20 cases: PLANNING.md's own examples verbatim (pizza SAVE/IGNORE pair, Microsoft+Android-engineer multi-fact message), several more clear SAVE cases across different memory types, several more clear IGNORE cases (greetings, trivial immediate state), and at least one genuine multi-fact message beyond the PLANNING example
+- [x] 1.3 Verify the dataset loads without error and has at least 20 cases, with both SAVE (non-empty expected) and IGNORE (empty expected) cases represented
 
 ## 2. Matching and Metrics
 

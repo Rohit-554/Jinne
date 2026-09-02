@@ -1,0 +1,20 @@
+{"id": "save-01", "message": "I finally joined Microsoft as an Android engineer.", "expected": [{"relation": "works_at", "value": "Microsoft"}, {"relation": "job_role", "value": "Android Engineer"}]}
+{"id": "ignore-01", "message": "I'm eating pizza right now.", "expected": []}
+{"id": "save-02", "message": "Pizza has been my favourite food since childhood.", "expected": [{"relation": "favourite_food", "value": "Pizza"}]}
+{"id": "save-03", "message": "My sister's name is Ananya.", "expected": [{"relation": "sister_name", "value": "Ananya"}]}
+{"id": "save-04", "message": "I have a dog named Rex.", "expected": [{"relation": "pet_name", "value": "Rex"}]}
+{"id": "save-05", "message": "I live in Austin.", "expected": [{"relation": "lives_in", "value": "Austin"}]}
+{"id": "save-06", "message": "I work at Google.", "expected": [{"relation": "works_at", "value": "Google"}]}
+{"id": "save-07", "message": "I'm allergic to peanuts.", "expected": [{"relation": "allergic_to", "value": "peanuts"}]}
+{"id": "save-08", "message": "I'm training for a marathon.", "expected": [{"relation": "goal", "value": "marathon"}]}
+{"id": "save-09", "message": "My birthday is in March.", "expected": [{"relation": "birthday", "value": "March"}]}
+{"id": "save-10", "message": "I have an interview at Stripe on Friday and I'm pretty nervous about it.", "expected": [{"relation": "upcoming_event", "value": "Stripe interview"}]}
+{"id": "save-11", "message": "I love science fiction books.", "expected": [{"relation": "preference", "value": "science fiction"}]}
+{"id": "ignore-02", "message": "hi", "expected": []}
+{"id": "ignore-03", "message": "hello there!", "expected": []}
+{"id": "ignore-04", "message": "lol that's funny", "expected": []}
+{"id": "ignore-05", "message": "I'm a bit tired right now.", "expected": []}
+{"id": "ignore-06", "message": "What's the weather like today?", "expected": []}
+{"id": "ignore-07", "message": "ok cool, thanks!", "expected": []}
+{"id": "save-12", "message": "I just adopted a cat named Luna and I've started learning to play the piano.", "expected": [{"relation": "pet_name", "value": "Luna"}, {"relation": "learning", "value": "piano"}]}
+{"id": "save-13", "message": "I've decided my favorite season is autumn, mostly because of the colors.", "expected": [{"relation": "favourite_season", "value": "autumn"}]}
