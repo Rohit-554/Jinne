@@ -12,8 +12,10 @@
 
 ## 3. Live Evaluator and Report
 
-- [ ] 3.1 Implement `run_extraction_metrics(cases, llm) -> list[CaseScore]` calling the real `MemoryExtractor` for each case, and `write_extraction_report(case_scores, results_dir) -> Path` writing a timestamped JSON with aggregate precision/recall/counts, a methodology note, and full per-case detail (message, expected, actual, TP/FP/FN)
-- [ ] 3.2 Add a runnable entry point (`python -m src.evaluation.run_extraction_eval`) loading the dataset, running it against the real Groq provider, writing the report, and printing a summary
-- [ ] 3.3 Run it live against all ~20 cases and record the genuinely measured precision and recall
-- [ ] 3.4 Add the real result to `eval/FAILURE_ANALYSIS.md` (or a new short note) and to `README.md`'s evaluation results section, including any misses found, in plain terms - no invented numbers
-- [ ] 3.5 Run the full pytest suite and confirm nothing regressed
+- [x] 3.1 Implement `run_extraction_metrics(cases, llm) -> list[CaseScore]` calling the real `MemoryExtractor` for each case, and `write_extraction_report(case_scores, results_dir) -> Path` writing a timestamped JSON with aggregate precision/recall/counts, a methodology note, and full per-case detail (message, expected, actual, TP/FP/FN)
+- [x] 3.2 Add a runnable entry point (`python -m src.evaluation.run_extraction_eval`) loading the dataset, running it against the real Groq provider, writing the report, and printing a summary
+- [x] 3.3 Run it live against all ~20 cases and record the genuinely measured precision and recall. Result: 100% precision, 100% recall (15/15 expected facts, 0 FP, 0 FN) - report at `eval/results/extraction-metrics-20260902T062004Z.json`
+- [x] 3.4 Add the real result to `eval/FAILURE_ANALYSIS.md` and `README.md`'s evaluation results section, including the caveat that a clean 20-case result doesn't claim general error-freedom (occasional malformed-JSON extraction, documented separately, is a different failure mode this metric doesn't capture)
+- [x] 3.5 Run the full pytest suite and confirm nothing regressed (136 passed)
+
+All 12 tasks complete.
