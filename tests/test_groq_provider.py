@@ -1,3 +1,4 @@
+import groq
 import pytest
 
 from src.config import get_env, load_config
@@ -13,9 +14,12 @@ GROQ_MODEL = get_env("GROQ_MODEL", default="openai/gpt-oss-120b")
 def test_complete_returns_non_empty_response():
     provider = GroqProvider(api_key=GROQ_API_KEY, model=GROQ_MODEL)
 
-    response = provider.complete(
-        [{"role": "user", "content": "Reply with the single word: pong"}]
-    )
+    try:
+        response = provider.complete(
+            [{"role": "user", "content": "Reply with the single word: pong"}]
+        )
+    except groq.RateLimitError as exc:
+        pytest.skip(f"Groq rate/quota limit hit, not a code issue: {exc}")
 
     assert isinstance(response, str)
     assert len(response.strip()) > 0

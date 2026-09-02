@@ -32,6 +32,8 @@
 
 ## 6. Entry Point and Full Live Run
 
-- [ ] 6.1 Add `src/evaluation/run_eval.py` with a `main()` that loads scenarios, runs them all against the real Groq/fastembed providers, computes metrics, writes the report, and prints a summary to stdout, runnable via `python -m src.evaluation.run_eval`
-- [ ] 6.2 Run the full 50-scenario suite live and inspect the results: confirm the report was written, spot-check at least one PASS and (if any occur) one FAIL/PARTIAL per category against their actual responses, and record the genuinely measured overall pass rate (no fabricated numbers)
-- [ ] 6.3 Based on the live run's actual failures (if any), write a brief failure-analysis note (which scenarios failed and why, in plain terms) to inform the README's eventual "known limitations" section - do not paper over real failures
+- [x] 6.1 Add `src/evaluation/run_eval.py` with a `main()` that loads scenarios, runs them all against the real Groq/fastembed providers, computes metrics, writes the report, and prints a summary to stdout, runnable via `python -m src.evaluation.run_eval`
+- [x] 6.2 Run the full 50-scenario suite live and inspect the results: confirm the report was written, spot-check at least one PASS and (if any occur) one FAIL/PARTIAL per category against their actual responses, and record the genuinely measured overall pass rate (no fabricated numbers). Result: 98% overall pass (49/50) - see `eval/FAILURE_ANALYSIS.md` for full provenance, including a Groq daily-token-cap hit on two separate attempts (not scored) and a harness bug (Unicode hyphen false negative) found, fixed, and regression-tested along the way
+- [x] 6.3 Based on the live run's actual failures, write a brief failure-analysis note (which scenarios failed and why, in plain terms) to inform the README's eventual "known limitations" section - do not paper over real failures. Written to `eval/FAILURE_ANALYSIS.md`: one genuine persona-drift failure (`persona-09`, adversarial "formal corporate tone" request), plus notes on occasional malformed-JSON extraction and the LLM-judge's inherent limitations
+
+All 16 tasks complete.

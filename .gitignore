@@ -23,3 +23,6 @@ eval/results/
 .DS_Store
 .idea/
 .vscode/
+
+# Claude Code session runtime state
+.claude/scheduled_tasks.lock
