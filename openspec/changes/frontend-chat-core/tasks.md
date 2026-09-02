@@ -13,14 +13,14 @@
 
 ## 3. Frontend Scaffold and Chat Page
 
-- [ ] 3.1 Create the Vite + React + TypeScript app under `frontend/`, add Tailwind configured with FRONTENDPLAN.md's dark palette and typography, and verify `npm run build` succeeds
-- [ ] 3.2 Build `ChatPage`: companion name + short persona description header, scrollable message history, `MessageInput` with send button, and verify the page renders in dev mode without console errors
-- [ ] 3.3 Implement streaming response rendering: a `fetch` + `ReadableStream` SSE reader that appends response text incrementally to the in-progress assistant message as chunks arrive, and parses the final metadata event
-- [ ] 3.4 Implement a minimal collapsible Memory Inspector panel: fetches `GET /api/memories` (via TanStack Query), lists each active memory's value, and shows a plain empty-state message when there are none
-- [ ] 3.5 Wire the chat page to `POST /api/chat` end-to-end
+- [x] 3.1 Create the Vite + React + TypeScript app under `frontend/`, add Tailwind configured with FRONTENDPLAN.md's dark palette and typography, and verify `npm run build` succeeds. Note: the scaffolder's default (Vite 8 / Rolldown) hit a real missing-native-binding error on this Windows/Node 22.11 combo; pinned to stable Vite 6 (Rollup-based) instead, and removed a TS-6-only `erasableSyntaxOnly` compiler option the scaffold generated that TypeScript 5.7 doesn't support
+- [x] 3.2 Build `ChatPage`: companion name + short persona description header, scrollable message history, `MessageInput` with send button, and verify the page renders in dev mode without console errors - verified with a real Playwright browser test (not just a manual claim): page loads, heading/persona/input all visible, zero console errors
+- [x] 3.3 Implement streaming response rendering: a `fetch` + `ReadableStream` SSE reader that appends response text incrementally to the in-progress assistant message as chunks arrive, and parses the final metadata event. The SSE parsing itself is a pure, unit-tested module (`api/sse.ts`, 6 Vitest tests) separate from the fetch/streaming side-effects
+- [x] 3.4 Implement a minimal collapsible Memory Inspector panel: fetches `GET /api/memories` (via TanStack Query), lists each active memory's value, and shows a plain empty-state message when there are none
+- [x] 3.5 Wire the chat page to `POST /api/chat` end-to-end
 
 ## 4. End-to-End Verification
 
-- [ ] 4.1 Run the FastAPI backend and Vite dev server together and verify live: sending a message streams a real response, the memories panel reflects a fact just mentioned after a refetch, and a contradiction (stated, then updated) is reflected in a subsequent `/api/memories` call
-- [ ] 4.2 Run the full Python pytest suite and confirm nothing regressed
-- [ ] 4.3 Note in the change's completion summary that automated interactive browser verification (e.g. Playwright) is not part of this environment's toolset - frontend verification here covers build success, dev-server rendering without console errors, and scripted API-contract checks (curl/SSE), not a fully automated click-through; a manual browser check by the user is the remaining gap and should be flagged as such, not glossed over
+- [x] 4.1 Run the FastAPI backend and Vite dev server together and verify live: sending a message streams a real response, the memories panel reflects a fact just mentioned after a refetch, and a contradiction (stated, then updated) is reflected in a subsequent `/api/memories` call. Verified with real Playwright browser tests driving both live servers end-to-end (not curl-only): `chat-flow.spec.ts` sends "My dog's name is Bruno," confirms the streamed reply renders, and confirms "Bruno" appears in the memory panel after refetch; `contradiction.spec.ts` sends the Google→Microsoft sequence and confirms "Microsoft" is the current employer shown afterward. All 3 e2e specs pass (9.3s total)
+- [x] 4.2 Run the full Python pytest suite and confirm nothing regressed (147 passed)
+- [x] 4.3 Playwright (`@playwright/test` + Chromium) was installed into `frontend/` per explicit request, closing the gap this task originally flagged (no browser-automation tool available). Frontend verification now includes genuine automated browser interaction against the real live stack, not just build success and scripted curl checks - the original caveat about needing a manual user check no longer applies for what this change covers
