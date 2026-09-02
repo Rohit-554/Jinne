@@ -6,9 +6,9 @@
 
 ## 2. Matching and Metrics
 
-- [ ] 2.1 Implement `values_match(a: str, b: str) -> bool` (case-insensitive substring match in either direction) and verify unit tests for an exact match, a substring match, and a non-match
-- [ ] 2.2 Implement `score_case(case: ExtractionCase, actual_candidates: list[MemoryCandidate]) -> CaseScore` (true_positives, false_positives, false_negatives as lists of values) matching only SAVE-decision candidates against `case.expected` via `values_match`, and verify unit tests for: exact match (no FP/FN), a missed expected fact (FN), an unexpected extra candidate (FP), and a correctly-empty IGNORE case (no FP/FN when the extractor also produces no SAVE candidates)
-- [ ] 2.3 Implement precision/recall aggregation across a list of `CaseScore`s (`TP/(TP+FP)`, `TP/(TP+FN)`, with total counts included), and verify a unit test with a small fixed set of case scores produces the expected precision and recall
+- [x] 2.1 Implement `values_match(a: str, b: str) -> bool` (case-insensitive substring match in either direction) and verify unit tests for an exact match, a substring match, and a non-match
+- [x] 2.2 Implement `score_case(case: ExtractionCase, actual_candidates: list[MemoryCandidate]) -> CaseScore` (true_positives, false_positives, false_negatives as lists of values) matching only SAVE-decision candidates against `case.expected` via `values_match`, and verify unit tests for: exact match (no FP/FN), a missed expected fact (FN), an unexpected extra candidate (FP), and a correctly-empty IGNORE case (no FP/FN when the extractor also produces no SAVE candidates)
+- [x] 2.3 Implement precision/recall aggregation across a list of `CaseScore`s (`TP/(TP+FP)`, `TP/(TP+FN)`, with total counts included), and verify a unit test with a small fixed set of case scores produces the expected precision and recall
 
 ## 3. Live Evaluator and Report
 
