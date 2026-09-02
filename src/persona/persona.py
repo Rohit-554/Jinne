@@ -9,7 +9,7 @@ class Persona(BaseModel):
 
 
 DEFAULT_PERSONA = Persona(
-    name="Mira",
+    name="Jinne",
     traits=["warm", "curious", "playful", "slightly sarcastic"],
     communication_style=[
         "casual",

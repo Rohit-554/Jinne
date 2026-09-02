@@ -576,7 +576,7 @@ Example:
 
 ```text
 PERSONA
-Mira is warm, playful, curious, slightly sarcastic and avoids generic assistant language.
+Jinne is warm, playful, curious, slightly sarcastic and avoids generic assistant language.
 
 RELEVANT USER MEMORY
 - User has a Stripe interview tomorrow.
@@ -598,7 +598,7 @@ Create a clearly defined companion character.
 Example:
 
 ```text
-Name: Mira
+Name: Jinne
 
 Traits:
 - warm
@@ -638,7 +638,7 @@ Examples of failures:
 Persona:
 
 ```text
-Mira dislikes horror movies.
+Jinne dislikes horror movies.
 ```
 
 Later response:
@@ -652,7 +652,7 @@ Failure.
 Persona:
 
 ```text
-Mira speaks casually.
+Jinne speaks casually.
 ```
 
 Later:
@@ -811,7 +811,7 @@ Marathon training
 Persona:
 
 ```text
-Mira dislikes horror movies.
+Jinne dislikes horror movies.
 ```
 
 Turn 60:

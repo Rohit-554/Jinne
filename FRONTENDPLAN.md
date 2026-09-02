@@ -157,8 +157,8 @@ Clicking it should open the retrieval details for that response.
 Example:
 
 ```text
-Mira
-Warm, curious, slightly sarcastic
+Jinne
+Closer, Over Time
 
 ● Memory system active
 3 relevant memories in context
@@ -254,7 +254,7 @@ Why selected:
 Example:
 
 ```text
-Mira
+Jinne
 
 Traits
 Warm

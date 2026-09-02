@@ -9,9 +9,9 @@ test('chat page loads with companion identity visible and no console errors', as
 
   await page.goto('/')
 
-  await expect(page.getByRole('heading', { name: 'Mira' })).toBeVisible()
-  await expect(page.getByText('Warm, curious, slightly sarcastic')).toBeVisible()
-  await expect(page.getByPlaceholder('Message Mira...')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Jinne' })).toBeVisible()
+  await expect(page.getByText('Closer, Over Time')).toBeVisible()
+  await expect(page.getByPlaceholder('Message Jinne...')).toBeVisible()
 
   expect(consoleErrors).toEqual([])
 })

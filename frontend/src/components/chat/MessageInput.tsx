@@ -24,7 +24,7 @@ export function MessageInput({ onSend, disabled }: MessageInputProps) {
         type="text"
         value={value}
         onChange={(event) => setValue(event.target.value)}
-        placeholder="Message Mira..."
+        placeholder="Message Jinne..."
         disabled={disabled}
         className="flex-1 rounded-md border border-border bg-surface px-3 py-2 text-sm text-text placeholder:text-text-secondary focus:outline-none focus:ring-1 focus:ring-accent disabled:opacity-50"
       />

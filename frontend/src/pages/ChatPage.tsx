@@ -6,8 +6,8 @@ import { MessageInput } from '../components/chat/MessageInput'
 import { MemoryInspector } from '../components/memory/MemoryInspector'
 import type { ChatMessage } from '../types/chat'
 
-const PERSONA_NAME = 'Mira'
-const PERSONA_DESCRIPTION = 'Warm, curious, slightly sarcastic'
+const PERSONA_NAME = 'Jinne'
+const PERSONA_DESCRIPTION = 'Closer, Over Time'
 
 export function ChatPage() {
   const [messages, setMessages] = useState<ChatMessage[]>([])

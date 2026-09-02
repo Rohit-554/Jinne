@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 test('sending a message streams a real response and updates the memory panel', async ({ page }) => {
   await page.goto('/')
 
-  const input = page.getByPlaceholder('Message Mira...')
+  const input = page.getByPlaceholder('Message Jinne...')
   await input.fill("My dog's name is Bruno.")
   await input.press('Enter')
 

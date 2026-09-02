@@ -33,7 +33,7 @@ cp .env.example .env
 ```
 
 In the CLI:
-- Type anything to talk to the companion (default persona: **Mira**).
+- Type anything to talk to the companion (default persona: **Jinne**).
 - `/memories` (or `/memory-timeline`) — see stored memories grouped by type, including superseded history.
 - `/memory-debug` — see the score breakdown (similarity, importance, recency, confidence) for what was just retrieved.
 - `/exit` to quit.
@@ -132,7 +132,7 @@ A scripted walkthrough proving persistence, contradiction handling, and explaina
 
 ```text
 $ python -m src.cli
-Mira is here. Type /exit to quit, /memories for the timeline, /memory-debug for the last retrieval.
+Jinne is here. Type /exit to quit, /memories for the timeline, /memory-debug for the last retrieval.
 > I'm dating Sarah.
 > I work at Stripe.
 > I'm training for a marathon.

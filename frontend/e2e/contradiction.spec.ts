@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 test('a contradiction is reflected in the memory panel after the second turn', async ({ page }) => {
   await page.goto('/')
 
-  const input = page.getByPlaceholder('Message Mira...')
+  const input = page.getByPlaceholder('Message Jinne...')
 
   await input.fill('I work at Google.')
   await input.press('Enter')
