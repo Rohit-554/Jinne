@@ -21,7 +21,9 @@
 
 ## 5. Live Comparison Run
 
-- [ ] 5.1 Run Baseline A live against all 50 scenarios, budgeting API key usage as needed if a rate limit is hit (per design.md's key-rotation approach), and record the genuinely measured results
-- [ ] 5.2 Run Baseline B live against all 50 scenarios the same way, and record the genuinely measured results
-- [ ] 5.3 Combine Baseline A's and Baseline B's fresh results with the proposed system's existing canonical `evaluation-harness` results into one comparison report, and verify the report's numbers match each source (no numbers invented or adjusted)
-- [ ] 5.4 Write a short comparison write-up (which categories the proposed system's architecture measurably helped on, which it didn't, in plain terms) to inform the eventual README's "why hybrid memory was chosen" and "what alternatives were considered" sections - report what the numbers actually show, including if a baseline does surprisingly well somewhere
+- [x] 5.1 Run Baseline A live against all 50 scenarios, budgeting API key usage as needed if a rate limit is hit (per design.md's key-rotation approach), and record the genuinely measured results. Hit the daily cap on the first key at scenario 5; restarted clean on a second key and completed all 50: 96% overall (48/50)
+- [x] 5.2 Run Baseline B live against all 50 scenarios the same way, and record the genuinely measured results. Completed scenarios 1-33 cleanly before hitting a second key's daily cap; re-ran only the remaining 17 on a third key and combined with the first 33's real results: 96% overall (48/50)
+- [x] 5.3 Combine Baseline A's and Baseline B's fresh results with the proposed system's existing canonical `evaluation-harness` results into one comparison report, and verify the report's numbers match each source (no numbers invented or adjusted). Written to `eval/results/comparison-20260902T054132Z.json`
+- [x] 5.4 Write a short comparison write-up (which categories the proposed system's architecture measurably helped on, which it didn't, in plain terms) to inform the eventual README's "why hybrid memory was chosen" and "what alternatives were considered" sections - report what the numbers actually show, including if a baseline does surprisingly well somewhere. Written to `eval/BASELINE_COMPARISON.md`: both baselines score 96% vs the proposed system's 98% because scenarios are short enough to fit in raw context; digging into the one shared failure (`contra-08`) shows Baseline A gave a real non-answer (asked the user to disambiguate) while Baseline B's failure was a grading artifact (correct answer, unexpected wording) - documented plainly rather than glossed over
+
+All 20 tasks complete.
