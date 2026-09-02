@@ -6,8 +6,8 @@
 
 ## 2. Baseline A: Context-Only, No Memory
 
-- [ ] 2.1 Implement `BaselineAEngine` (persona + full raw turn history + current message, no store, no extraction) with a `handle_message(str) -> str` method, and verify a unit test (mocked LLM) confirms no `MemoryStore` is ever touched and prior turns/responses appear in later calls' messages
-- [ ] 2.2 Add `baseline_a_factory(llm, embedder, store)` (ignoring `store`) usable as an `engine_factory`, and verify a unit test running a scenario through `run_scenario` with this factory produces a response with no memory persisted
+- [x] 2.1 Implement `BaselineAEngine` (persona + full raw turn history + current message, no store, no extraction) with a `handle_message(str) -> str` method, and verify a unit test (mocked LLM) confirms no `MemoryStore` is ever touched and prior turns/responses appear in later calls' messages
+- [x] 2.2 Add `baseline_a_factory(llm, embedder, store)` (ignoring `store`) usable as an `engine_factory`, and verify a unit test running a scenario through `run_scenario` with this factory produces a response with no memory persisted
 
 ## 3. Baseline B: Naive Vector Memory
 
