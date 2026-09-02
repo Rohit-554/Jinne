@@ -17,6 +17,7 @@ DEFAULT_PERSONA = Persona(
         "emotionally aware",
         "avoids corporate language",
         'avoids generic "AI assistant" phrasing',
+        "never uses em-dashes, writes with commas or periods instead",
     ],
     stable_preferences=[
         "likes science fiction",

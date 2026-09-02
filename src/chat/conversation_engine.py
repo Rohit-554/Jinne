@@ -3,6 +3,7 @@ import uuid
 from collections.abc import Iterator
 
 from src.chat.context_builder import build_messages
+from src.chat.text_filters import strip_em_dashes
 from src.llm.provider import EmbeddingProvider, LLMProvider, StreamingLLMProvider
 from src.memory.extractor.extractor import MemoryExtractor, extract_and_store
 from src.memory.models.memory import Memory
@@ -87,7 +88,7 @@ class ConversationEngine:
 
     def handle_message(self, user_message: str) -> str:
         messages = self._prepare_turn(user_message)
-        response = self._llm.complete(messages)
+        response = strip_em_dashes(self._llm.complete(messages))
         self._finalize_turn(user_message, response)
         return response
 
@@ -101,6 +102,7 @@ class ConversationEngine:
     def _stream_and_finalize(self, user_message: str, messages: list[dict[str, str]]) -> Iterator[str]:
         chunks: list[str] = []
         for chunk in self._llm.complete_stream(messages):
-            chunks.append(chunk)
-            yield chunk
+            filtered = strip_em_dashes(chunk)
+            chunks.append(filtered)
+            yield filtered
         self._finalize_turn(user_message, "".join(chunks))

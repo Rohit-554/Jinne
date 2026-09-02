@@ -161,6 +161,29 @@ def test_handle_message_still_returns_reply_when_memory_processing_fails(tmp_pat
         store.close()
 
 
+def test_handle_message_strips_em_dashes_from_llm_reply(tmp_path):
+    user_message = "Tell me something."
+    provider = RoutingFakeLLMProvider(
+        chat_reply="Sure thing—here's a fact.",
+        extraction_json_by_message={user_message: '{"candidates": []}'},
+    )
+    store = MemoryStore(tmp_path / "companion.db")
+    try:
+        engine = ConversationEngine(
+            llm=provider,
+            embedder=FakeEmbeddingProvider(),
+            store=store,
+            persona=DEFAULT_PERSONA,
+        )
+
+        response = engine.handle_message(user_message)
+
+        assert "—" not in response
+        assert response == "Sure thing, here's a fact."
+    finally:
+        store.close()
+
+
 def test_get_last_retrieval_debug_empty_before_any_turn(tmp_path):
     store = MemoryStore(tmp_path / "companion.db")
     try:
@@ -241,6 +264,30 @@ def test_handle_message_stream_yields_chunks_that_concatenate_to_full_reply(tmp_
 
         assert len(chunks) > 1
         assert "".join(chunks) == "Bruno sounds like a good boy!"
+    finally:
+        store.close()
+
+
+def test_handle_message_stream_strips_em_dashes_from_chunks(tmp_path):
+    user_message = "Tell me something."
+    provider = RoutingFakeStreamingLLMProvider(
+        chat_reply="Sure thing—here's a fact.",
+        extraction_json_by_message={user_message: '{"candidates": []}'},
+    )
+    store = MemoryStore(tmp_path / "companion.db")
+    try:
+        engine = ConversationEngine(
+            llm=provider,
+            embedder=FakeEmbeddingProvider(),
+            store=store,
+            persona=DEFAULT_PERSONA,
+        )
+
+        chunks = list(engine.handle_message_stream(user_message))
+        full_response = "".join(chunks)
+
+        assert "—" not in full_response
+        assert full_response == "Sure thing, here's a fact."
     finally:
         store.close()
 
