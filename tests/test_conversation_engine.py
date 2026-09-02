@@ -159,3 +159,96 @@ def test_handle_message_still_returns_reply_when_memory_processing_fails(tmp_pat
         assert store.list() == []
     finally:
         store.close()
+
+
+def test_get_last_retrieval_debug_empty_before_any_turn(tmp_path):
+    store = MemoryStore(tmp_path / "companion.db")
+    try:
+        engine = ConversationEngine(
+            llm=RoutingFakeLLMProvider(chat_reply="hi", extraction_json_by_message={}),
+            embedder=FakeEmbeddingProvider(),
+            store=store,
+            persona=DEFAULT_PERSONA,
+        )
+
+        assert engine.get_last_retrieval_debug() == []
+    finally:
+        store.close()
+
+
+def test_get_last_retrieval_debug_reflects_last_turns_retrieval(tmp_path):
+    embedder = FakeEmbeddingProvider()
+    store = MemoryStore(tmp_path / "companion.db")
+    try:
+        saved = store.save(
+            Memory(
+                type=MemoryType.CAREER,
+                subject="user",
+                relation="works_at",
+                value="Microsoft",
+                status=MemoryStatus.ACTIVE,
+                importance=0.9,
+                confidence=0.95,
+                source_message_id="msg-old",
+                embedding=embedder.embed("works at Microsoft"),
+            )
+        )
+
+        user_message = "Where do I work?"
+        provider = RoutingFakeLLMProvider(
+            chat_reply="Microsoft!",
+            extraction_json_by_message={user_message: '{"candidates": []}'},
+        )
+        engine = ConversationEngine(llm=provider, embedder=embedder, store=store, persona=DEFAULT_PERSONA)
+
+        engine.handle_message(user_message)
+        debug = engine.get_last_retrieval_debug()
+
+        assert len(debug) == 1
+        assert debug[0].memory.id == saved.id
+        assert debug[0].final_score is not None
+    finally:
+        store.close()
+
+
+def test_list_all_memories_returns_every_status(tmp_path):
+    store = MemoryStore(tmp_path / "companion.db")
+    try:
+        store.save(
+            Memory(
+                type=MemoryType.CAREER,
+                subject="user",
+                relation="works_at",
+                value="Google",
+                status=MemoryStatus.SUPERSEDED,
+                importance=0.9,
+                confidence=0.95,
+                source_message_id="msg-1",
+            )
+        )
+        store.save(
+            Memory(
+                type=MemoryType.CAREER,
+                subject="user",
+                relation="works_at",
+                value="Microsoft",
+                status=MemoryStatus.ACTIVE,
+                importance=0.9,
+                confidence=0.95,
+                source_message_id="msg-2",
+            )
+        )
+
+        engine = ConversationEngine(
+            llm=RoutingFakeLLMProvider(chat_reply="hi", extraction_json_by_message={}),
+            embedder=FakeEmbeddingProvider(),
+            store=store,
+            persona=DEFAULT_PERSONA,
+        )
+
+        all_memories = engine.list_all_memories()
+
+        assert {m.value for m in all_memories} == {"Google", "Microsoft"}
+        assert {m.status for m in all_memories} == {MemoryStatus.SUPERSEDED, MemoryStatus.ACTIVE}
+    finally:
+        store.close()

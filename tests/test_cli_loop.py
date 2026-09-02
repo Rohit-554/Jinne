@@ -61,3 +61,50 @@ def test_run_survives_a_failed_turn_and_keeps_the_session_going():
     output = output_stream.getvalue()
     assert "something went wrong" in output
     assert "echo: this one should work" in output
+
+
+class MemoryCommandsFakeEngine:
+    def __init__(self):
+        self.handle_message_calls: list[str] = []
+
+    def handle_message(self, user_message: str) -> str:
+        self.handle_message_calls.append(user_message)
+        return f"echo: {user_message}"
+
+    def list_all_memories(self):
+        return []
+
+    def get_last_retrieval_debug(self):
+        return []
+
+
+def test_run_handles_memories_command_without_calling_handle_message():
+    engine = MemoryCommandsFakeEngine()
+    input_stream = io.StringIO("/memories\n/exit\n")
+    output_stream = io.StringIO()
+
+    run(engine=engine, input_stream=input_stream, output_stream=output_stream)
+
+    assert engine.handle_message_calls == []
+    assert "No memories" in output_stream.getvalue()
+
+
+def test_run_handles_memory_debug_command_without_calling_handle_message():
+    engine = MemoryCommandsFakeEngine()
+    input_stream = io.StringIO("/memory-debug\n/exit\n")
+    output_stream = io.StringIO()
+
+    run(engine=engine, input_stream=input_stream, output_stream=output_stream)
+
+    assert engine.handle_message_calls == []
+    assert "no retrieval" in output_stream.getvalue().lower()
+
+
+def test_run_continues_after_memory_command():
+    engine = MemoryCommandsFakeEngine()
+    input_stream = io.StringIO("/memories\nhello\n/exit\n")
+    output_stream = io.StringIO()
+
+    run(engine=engine, input_stream=input_stream, output_stream=output_stream)
+
+    assert engine.handle_message_calls == ["hello"]
